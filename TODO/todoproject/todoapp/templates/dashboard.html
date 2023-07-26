@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <h2> My Task</h2>
+<button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal"><i class="fa fa-search-plus" aria-hidden="true"></i>view task
+</button><br><br>
+<div class="container">
+      <h2 style="color:blue">Remaining task</h2>
+     
+      
+       <table id="example" class="table table-bordered" style="width: 100%;border-color: rgb(20, 1, 1); table-layout: fixed;word-break: break-all;">
+          <thead>
+            <tr>
+              <th scope="col">S.No</th>
+              <th>userimage</th>
+              <th scope="col">Tasks</th>
+              <th scope="col">Percentages</th>
+              <th scope="col">Dates</th>
+              <th scope="col">Update</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for x in mytask %}
+            <tr>
+              <th scope="row">{{forloop.counter}}</th>
+              <td>
+                {% if x.userimage %}
+                <img src="{{ x.userimage.url }}" width="60px" >
+                {% else %}
+                No image Available
+                {% endif %}
+              </td>
+              <td>{{x.tasks}}</td>
+              <td>{{x.percentages}}</td>
+              <td>{{x.dates}}</td>
+              <td><a href="/update/{{x.id}}"><button type="button" class="btn btn-success">Update</button> </a></td>
+              <td><a href="/delete/{{x.id}}"><button type="submit" class="btn btn-danger">Delete</button></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+</div>
+
+</div>
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form method="POST" action="/dashboard/" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="col-md-6">
+                    <div class="form-group">
+
+                        <label>Task</label>
+                        <textarea id="form-message" name="tasks" class="form-control" placeholder="enter your task here"
+                            rows="4" required>
+                        </textarea>
+                        </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Upload image</label>
+                                <input type="file" name="userimage" placeholder="" required>
+                  
+                    </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Compleated {in %}</label>
+                                    <input type="text" name="percentages" class="form-control" placeholder="enter your percentage">
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" name="dates" class="form-control" required>
+                                </div>
+                                </div>
+                                <center><button type="submit" class="btn btn-success">Done</button></center>
+
+                    </div>
+                </div>
+            
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+                
+            </div>
+        </div>
+        
+    </div>
+    </div>
+</div>
+</body>
+</html>
